@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <style>
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+
+  body {
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  canvas {
+    border: 1px solid black;
+  }
+  </style>
+</head>
+<body>
+<canvas width="400" height="400" id="game"></canvas>
+<script>
+var canvas = document.getElementById('game');
+var context = canvas.getContext('2d');
+
+var pixels = 16;
+var count = 0;
+  
+var dangerNoodle = {
+  x: 160,
+  y: 160,
+  
+  vx: 16,
+  vy: 0,
+  
+  cells: [],
+  
+  maxCells: 4
+};
+var object = {
+  x: 320,
+  y: 320
+};
+
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
+function loop() {
+  requestAnimationFrame(loop);
+
+  if (++count < 15) {
+    return;
+  }
+
+  count = 0;
+  context.clearRect(0,0,canvas.width,canvas.height);
+
+  dangerNoodle.x += dangerNoodle.vx;
+  dangerNoodle.y += dangerNoodle.vy;
+
+  if (dangerNoodle.x < 0) {
+    dangerNoodle.x = 160;
+        dangerNoodle.y = 160;
+        dangerNoodle.cells = [];
+        dangerNoodle.maxCells = 4;
+        dangerNoodle.vx = pixels;
+        dangerNoodle.vy = 0;
+        object.x = getRandomInt(0, 25) * pixels;
+        object.y = getRandomInt(0, 25) * pixels;
+  }
+  else if (dangerNoodle.x >= canvas.width) {
+    dangerNoodle.x = 160;
+        dangerNoodle.y = 160;
+        dangerNoodle.cells = [];
+        dangerNoodle.maxCells = 4;
+        dangerNoodle.vx = pixels;
+        dangerNoodle.vy = 0;
+        object.x = getRandomInt(0, 25) * pixels;
+        object.y = getRandomInt(0, 25) * pixels;
+  }
+  
+  if (dangerNoodle.y < 0) {
+    dangerNoodle.x = 160;
+        dangerNoodle.y = 160;
+        dangerNoodle.cells = [];
+        dangerNoodle.maxCells = 4;
+        dangerNoodle.vx = pixels;
+        dangerNoodle.vy = 0;
+        object.x = getRandomInt(0, 25) * pixels;
+        object.y = getRandomInt(0, 25) * pixels;
+  }
+  else if (dangerNoodle.y >= canvas.height) {
+    dangerNoodle.x = 160;
+        dangerNoodle.y = 160;
+        dangerNoodle.cells = [];
+        dangerNoodle.maxCells = 4;
+        dangerNoodle.vx = pixels;
+        dangerNoodle.vy = 0;
+        object.x = getRandomInt(0, 25) * pixels;
+        object.y = getRandomInt(0, 25) * pixels;
+  }
+
+  dangerNoodle.cells.unshift({x: dangerNoodle.x, y: dangerNoodle.y});
+
+
+  if (dangerNoodle.cells.length > dangerNoodle.maxCells) {
+    dangerNoodle.cells.pop();
+  }
+
+  context.fillStyle = 'maroon';
+  context.fillRect(object.x, object.y, pixels-1, pixels-1);
+
+  context.fillStyle = 'olivedrab';
+  dangerNoodle.cells.forEach(function(cell, index) {
+    
+    context.fillRect(cell.x, cell.y, pixels-1, pixels-1);  
+
+    if (cell.x === object.x && cell.y === object.y) {
+      dangerNoodle.maxCells++;
+
+      object.x = getRandomInt(0, 25) * pixels;
+      object.y = getRandomInt(0, 25) * pixels;
+    }
+
+    for (var i = index + 1; i < dangerNoodle.cells.length; i++) {
+      
+      if (cell.x === dangerNoodle.cells[i].x && cell.y === dangerNoodle.cells[i].y) {
+        dangerNoodle.x = 160;
+        dangerNoodle.y = 160;
+        dangerNoodle.cells = [];
+        dangerNoodle.maxCells = 4;
+        dangerNoodle.vx = pixels;
+        dangerNoodle.vy = 0;
+        object.x = getRandomInt(0, 25) * pixels;
+        object.y = getRandomInt(0, 25) * pixels;
+      }
+    }
+  });
+}
+
+document.addEventListener('keydown', function(e) {
+  
+  if (e.which === 37 && dangerNoodle.vx === 0) {
+    dangerNoodle.vx = -pixels;
+    dangerNoodle.vy = 0;
+  }
+  else if (e.which === 38 && dangerNoodle.vy === 0) {
+    dangerNoodle.vy = -pixels;
+    dangerNoodle.vx = 0;
+  }
+  else if (e.which === 39 && dangerNoodle.vx === 0) {
+    dangerNoodle.vx = pixels;
+    dangerNoodle.vy = 0;
+  }
+  else if (e.which === 40 && dangerNoodle.vy === 0) {
+    dangerNoodle.vy = pixels;
+    dangerNoodle.vx = 0;
+  }
+});
+
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>

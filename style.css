@@ -1,0 +1,54 @@
+body {
+    width: 100%;
+}
+
+.inlinee {
+    display: inline;
+}
+
+.width-100 {
+    width: 100%;
+    align-items: center;
+}
+
+.st {
+    text-decoration: line-through;
+}
+
+.button {
+    border-radius: 15px;
+    border: 2px solid black;
+    padding: 15px;
+    margin-right: 10px;
+}
+
+.canvas {
+    border: 2px solid black;
+    margin: auto;
+}
+
+.row-c   {
+    height: 10px;
+    font-size: 0px;
+}
+
+.pixel {
+    width: 10px;
+    height: 10px;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 5px;
+}
+
+.row-c > div {
+    font-size: 1rem;
+    display: inline-block;
+}
+
+.navbar {
+    background-color: rgb(0, 58, 0);
+    font-family: sans-serif;
+    margin-right: 80%;
+    border-radius: 0 0 25px 0;
+    box-shadow: rgb(0, 58, 0) 3px 3px 3px, rgb(0, 58, 0)-3px 3px 3px, rgb(0, 58, 0) 3px -3px 3px;
+}
